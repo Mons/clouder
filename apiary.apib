@@ -1,0 +1,468 @@
+FORMAT: 1A
+HOST: https://cloud.mail.ru/
+
+# Clouder
+
+Simple cloud API
+
++ Special Response Headers
+
+            X-Req-Id: Tracking-id
+            X-Debug: Human-readable debug information (optional)
+                possible multiline
+
+### List folder contents [GET /api/v1/ls/{path}]
+
++ Parameters
+
+    + path: `path/to/foldername` (string, required) - Path to folder.
+
++ Request
+
+    + Headers
+
+            Authotization: Bearer OAuth2Token
+
++ Response 200 (application/json)
+
+    Return listing of the directory contents
+    
+    + Body
+
+            {
+                "name": "foldername",
+                "type": "d",
+                "list": [
+                    {
+                        "name": "nested",
+                        "type": "d"
+                    },
+                    {
+                        "name": "somefile.txt",
+                        "type": "f",
+                        "size": 123,
+                        "mtime": 1234567,
+                        "public": true,
+                    }                
+                ]
+            }
+
++ Response 401
+
+    Authorization was not given
+    
+    + Headers
+    
+            WWW-Authenticate: Bearer realm="example", error="invalid_request", error_description="Access token required"
+
+    + Body
+
++ Response 403
+
+    Token is wrong or expired
+
+    + Headers
+    
+            WWW-Authenticate: Bearer realm="example", error="invalid_token", error_description="The access token expired"
+
+    + Body
+
++ Response 403
+
+    Token is wrong or expired
+
+    + Headers
+    
+            WWW-Authenticate: Bearer realm="example", error="insufficient_scope", error_description="Scope required", scope="somescope"
+
+    + Body
+
++ Response 404
+
+    The path does not exists
+    
+    + Body
+
+            Optional debug information
+
++ Response 410
+
+    API was deprecated. Client MUST upgrade
+    
+    + Body
+
++ Response 500
+
+    Something went wrong, service unavailable
+    
+    + Body
+
+            Optional debug information
+
+### Get folder tree [GET /api/v1/tree/{path}]
+
++ Parameters
+
+    + path: `path/to/foldername` (string, required) - Path to folder.
+
++ Request
+
+    + Headers
+
+            Authotization: Bearer OAuth2Token
+
++ Response 200 (application/json)
+    
+    Return hierarchical tree of given path (folders only)
+
+    + Body
+
+            {
+                "name": "foldername",
+                "type": "d",
+                "list": [
+                    {
+                        "name": "nested",
+                        "type": "d",
+                        "list": [
+                        ]
+                    },
+                ]
+            }
+
++ Response 404
+
+    The path does not exists
+    
+    + Body
+
+            Optional debug information
+
++ Response 500
+
+    Something went wrong, service unavailable
+    
+    + Body
+
+            Optional debug information
+
+
+### Get path information [GET /api/v1/stat/{path}]
+
++ Parameters
+
+    + path: `path/to/foldername` (string, required) - Path to file or folder.
+
++ Request
+
+    + Headers
+
+            Authotization: Bearer OAuth2Token
+
++ Response 200 (application/json)
+
+    Return information about path (folder)
+
+    + Body
+
+            {
+                "name": "foldername",
+                "type": "d"
+            }
+
++ Response 200 (application/json)
+
+    Return information about path (file)
+
+    + Body
+
+            {
+                "name": "somefile.txt",
+                "type": "f",
+                "size": 123,
+                "mtime": 1234567,
+                "public": true
+            }
+
++ Response 404
+
+    The path does not exists
+    
+    + Body
+
+            Optional debug information
+
++ Response 500
+
+    Something went wrong, service unavailable
+    
+    + Body
+
+            Optional debug information
+
+### Create folder [POST /api/v1/mkdir/{path}]
+
++ Parameters
+
+    + path: `path/to/foldername` (string, required) - Path to file or folder.
+
++ Request
+
+    + Headers
+
+            Authotization: Bearer OAuth2Token
+
++ Response 201
+
+    Path successfully created
+    
+    + Body
+
++ Response 400
+
+    Name contains invalid characters
+    
+    + Body
+        
+            Optional debug information
+
++ Response 405
+
+    Path already exists
+    
+    + Body
+
+            Optional debug information
+
++ Response 409
+
+    Parent path does not exists
+    
+    + Body
+
+            Optional debug information
+
++ Response 500
+
+    Something went wrong, service unavailable
+    
+    + Body
+
+            Optional debug information
+
+### Create or rewrite file [PUT /api/v1/create/{path}?{mode}]
+
++ Parameters
+
+    + path: `path/to/file` (string, required) - Path to file.
+    + mode: `overwrite` (string, optional)
+        
+        Creation mode.
+        `overwrite` allows to replace the contents of existing file.
+        `exclusive` means, that it will be an error if path exists.
+        `autorename` will find another suitable name, if path exists.
+        
+        + Default : exclusive
+        + Members
+            + exclusive
+            + overwrite
+            + autorename
+
++ Request
+
+    + Headers
+
+            Authotization: Bearer OAuth2Token
+    
+    + Body
+    
+            Binary-contents-of-file
+
++ Response 201
+
+    File successfully created
+    
+    + Body
+
++ Response 400
+
+    Name contains invalid characters
+    
+    + Body
+        
+            Optional debug information
+
++ Response 405
+
+    Path already exists
+    
+    + Body
+
+            Optional debug information
+
++ Response 409
+
+    Parent path does not exists
+    
+    + Body
+
+            Optional debug information
+
++ Response 500
+
+    Something went wrong, service unavailable
+    
+    + Body
+
+            Optional debug information
+
+
+### Overwrite content of the existing file [PUT /api/v1/rewrite/{path}]
+
++ Parameters
+
+    + path: `path/to/file` (string, required) - Path to file.
+
++ Request
+
+    + Headers
+
+            Authotization: Bearer OAuth2Token
+    
+    + Body
+    
+            Binary-contents-of-file
+
++ Response 204
+
+    File successfully updated
+    
+    + Body
+
++ Response 400
+
+    Name contains invalid characters
+    
+    + Body
+        
+            Optional debug information
+
++ Response 404
+
+    The path does not exists
+    
+    + Body
+
+            Optional debug information
+
++ Response 500
+
+    Something went wrong, service unavailable
+    
+    + Body
+
+            Optional debug information
+
+
+## Public links [/api/v1/publish/{path}]
+
++ Parameters
+
+    + path: `path/to/file` (string, required) - Path to file.
+
+
+### Get existing public link [GET /api/v1/publish/{path}]
+
++ Request
+
+    + Headers
+
+            Authotization: Bearer OAuth2Token
+    
++ Response 200 (application/json)
+    
+    Have link
+
+    + Body
+
+            {
+                "link": "https://cloud.mail.ru/public/AAAA/BBBBBBB"
+            }
+
++ Response 404
+
+    The path does not exists
+    
+    + Body
+
+            Optional debug information
+
++ Response 405
+    
+    Resource does not have public link
+
+    + Body
+
+            Optional debug information
+
++ Response 500
+
+    Something went wrong, service unavailable
+    
+    + Body
+
+            Optional debug information
+
+### Create or get existing public link [POST /api/v1/publish/{path}]
+
++ Request
+
+    + Headers
+
+            Authotization: Bearer OAuth2Token
+    
++ Response 200 (application/json)
+    
+    Have link
+
+    + Body
+
+            {
+                "public": "https://cloud.mail.ru/public/AAAA/BBBBBBB",
+                "type": "f"
+            }
+
++ Response 201 (application/json)
+    
+    Link was created
+
+    + Body
+
+            {
+                "public": "https://cloud.mail.ru/public/AAAA/BBBBBBB",
+                "type": "f"
+            }
+
++ Response 404
+
+    The path does not exists
+    
+    + Body
+
+            Optional debug information
+
++ Response 405
+    
+    Resource does not have public link
+
+    + Body
+
+            Optional debug information
+
++ Response 500
+
+    Something went wrong, service unavailable
+    
+    + Body
+
+            Optional debug information
