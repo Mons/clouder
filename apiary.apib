@@ -26,7 +26,7 @@ Simple cloud API
 + Response 200 (application/json)
 
     Return listing of the directory contents
-    
+
     + Body
 
             {
@@ -43,16 +43,16 @@ Simple cloud API
                         "size": 123,
                         "mtime": 1234567,
                         "public": true,
-                    }                
+                    }
                 ]
             }
 
 + Response 401
 
     Authorization was not given
-    
+
     + Headers
-    
+
             WWW-Authenticate: Bearer realm="example", error="invalid_request", error_description="Access token required"
 
     + Body
@@ -62,7 +62,7 @@ Simple cloud API
     Token is wrong or expired
 
     + Headers
-    
+
             WWW-Authenticate: Bearer realm="example", error="invalid_token", error_description="The access token expired"
 
     + Body
@@ -72,7 +72,7 @@ Simple cloud API
     Token is wrong or expired
 
     + Headers
-    
+
             WWW-Authenticate: Bearer realm="example", error="insufficient_scope", error_description="Scope required", scope="somescope"
 
     + Body
@@ -80,7 +80,7 @@ Simple cloud API
 + Response 404
 
     The path does not exists
-    
+
     + Body
 
             Optional debug information
@@ -96,13 +96,13 @@ Simple cloud API
 + Response 410
 
     API was deprecated. Client MUST upgrade
-    
+
     + Body
 
 + Response 500
 
     Something went wrong, service unavailable
-    
+
     + Body
 
             Optional debug information
@@ -120,7 +120,7 @@ Simple cloud API
             Authotization: Bearer OAuth2Token
 
 + Response 200 (application/json)
-    
+
     Return hierarchical tree of given path (folders only)
 
     + Body
@@ -141,7 +141,7 @@ Simple cloud API
 + Response 404
 
     The path does not exists
-    
+
     + Body
 
             Optional debug information
@@ -157,7 +157,7 @@ Simple cloud API
 + Response 500
 
     Something went wrong, service unavailable
-    
+
     + Body
 
             Optional debug information
@@ -203,7 +203,7 @@ Simple cloud API
 + Response 404
 
     The path does not exists
-    
+
     + Body
 
             Optional debug information
@@ -219,7 +219,7 @@ Simple cloud API
 + Response 500
 
     Something went wrong, service unavailable
-    
+
     + Body
 
             Optional debug information
@@ -239,19 +239,19 @@ Simple cloud API
 + Response 201
 
     Path successfully created
-    
+
     + Body
 
 + Response 400
 
     Name contains invalid characters
-    
+
     + Body
-        
+
             Optional debug information
 
 + Response 409
-    
+
     Path already exists
 
     + Body
@@ -299,7 +299,7 @@ Simple cloud API
             Optional debug information
 
 + Response 500
-    
+
     Something went wrong, service unavailable
 
     + Body
@@ -312,12 +312,12 @@ Simple cloud API
 
     + path: `path/to/file` (string, required) - Path to file.
     + mode: `overwrite` (string, optional)
-        
+
         Creation mode.
         `overwrite` allows to replace the contents of existing file.
         `exclusive` means, that it will be an error if path exists.
         `autorename` will find another suitable name, if path exists.
-        
+
         + Default : exclusive
         + Members
             + exclusive
@@ -329,15 +329,15 @@ Simple cloud API
     + Headers
 
             Authotization: Bearer OAuth2Token
-    
+
     + Body
-    
+
             Binary-contents-of-file
 
 + Response 201
 
     File successfully created
-    
+
     + Body
 
             {
@@ -415,7 +415,7 @@ Simple cloud API
 + Response 500
 
     Something went wrong, service unavailable
-    
+
     + Body
 
             Optional debug information
@@ -432,29 +432,29 @@ Simple cloud API
     + Headers
 
             Authotization: Bearer OAuth2Token
-    
+
     + Body
-    
+
             Binary-contents-of-file
 
 + Response 204
 
     File successfully updated
-    
+
     + Body
 
 + Response 400
 
     Name contains invalid characters
-    
+
     + Body
-        
+
             Optional debug information
 
 + Response 404
 
     The path does not exists
-    
+
     + Body
 
             Optional debug information
@@ -462,7 +462,7 @@ Simple cloud API
 + Response 500
 
     Something went wrong, service unavailable
-    
+
     + Body
 
             Optional debug information
@@ -482,9 +482,9 @@ Simple cloud API
     + Headers
 
             Authotization: Bearer OAuth2Token
-    
+
 + Response 200 (application/json)
-    
+
     Have link
 
     + Body
@@ -496,13 +496,13 @@ Simple cloud API
 + Response 404
 
     The path does not exists
-    
+
     + Body
 
             Optional debug information
 
 + Response 405
-    
+
     Resource does not have public link
 
     + Body
@@ -520,7 +520,7 @@ Simple cloud API
 + Response 500
 
     Something went wrong, service unavailable
-    
+
     + Body
 
             Optional debug information
@@ -532,9 +532,9 @@ Simple cloud API
     + Headers
 
             Authotization: Bearer OAuth2Token
-    
+
 + Response 200 (application/json)
-    
+
     Have link
 
     + Body
@@ -545,7 +545,7 @@ Simple cloud API
             }
 
 + Response 201 (application/json)
-    
+
     Link was created
 
     + Body
@@ -558,13 +558,13 @@ Simple cloud API
 + Response 404
 
     The path does not exists
-    
+
     + Body
 
             Optional debug information
 
 + Response 404
-    
+
     Resource does not have public link
 
     + Body
@@ -574,7 +574,7 @@ Simple cloud API
 + Response 500
 
     Something went wrong, service unavailable
-    
+
     + Body
 
             Optional debug information
