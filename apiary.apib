@@ -57,7 +57,7 @@ Simple cloud API
 
     + Body
 
-+ Response 403
++ Response 401
 
     Token is wrong or expired
 
@@ -67,7 +67,7 @@ Simple cloud API
 
     + Body
 
-+ Response 403
++ Response 401
 
     Token is wrong or expired
 
@@ -81,6 +81,14 @@ Simple cloud API
 
     The path does not exists
     
+    + Body
+
+            Optional debug information
+
++ Response 406
+
+    There is not a directory in the paretn path
+
     + Body
 
             Optional debug information
@@ -134,6 +142,14 @@ Simple cloud API
 
     The path does not exists
     
+    + Body
+
+            Optional debug information
+
++ Response 406
+
+    There is not a directory in the paretn path
+
     + Body
 
             Optional debug information
@@ -192,6 +208,14 @@ Simple cloud API
 
             Optional debug information
 
++ Response 406
+
+    There is not a directory in the paretn path
+
+    + Body
+
+            Optional debug information
+
 + Response 500
 
     Something went wrong, service unavailable
@@ -226,26 +250,58 @@ Simple cloud API
         
             Optional debug information
 
-+ Response 405
-
-    Path already exists
++ Response 409
     
+    Path already exists
+
     + Body
 
             Optional debug information
 
-+ Response 409
++ Response 404
 
     Parent path does not exists
-    
+
+    + Body
+
+            Optional debug information
+
++ Response 406
+
+    There is not a directory in the paretn path
+
+    + Body
+
+            Optional debug information
+
++ Response 402
+
+    There is no space in the cloud
+
+    + Body
+
+            Optional debug information
+
++ Response 403
+
+    Read only path
+
+    + Body
+
+            Optional debug information
+
++ Response 414
+
+    Name too long
+
     + Body
 
             Optional debug information
 
 + Response 500
-
-    Something went wrong, service unavailable
     
+    Something went wrong, service unavailable
+
     + Body
 
             Optional debug information
@@ -284,26 +340,74 @@ Simple cloud API
     
     + Body
 
+            {
+                "name": "somefile.txt",
+                "type": "f",
+                "size": 123,
+                "mtime": 1234567,
+                "public": true
+            }
+
 + Response 400
 
     Name contains invalid characters
-    
-    + Body
-        
-            Optional debug information
 
-+ Response 405
-
-    Path already exists
-    
     + Body
 
             Optional debug information
 
 + Response 409
 
+    Path already exists. Can be returned on mode=overwrite if path is directory
+
+    + Body
+
+            Optional debug information
+
++ Response 404
+
     Parent path does not exists
-    
+
+    + Body
+
+            Optional debug information
+
++ Response 406
+
+    There is not a directory in the paretn path
+
+    + Body
+
+            Optional debug information
+
++ Response 402
+
+    There is no space in the cloud
+
+    + Body
+
+            Optional debug information
+
++ Response 403
+
+    Read only path
+
+    + Body
+
+            Optional debug information
+
++ Response 413
+
+    File too big
+
+    + Body
+
+            Optional debug information
+
++ Response 414
+
+    Name too long
+
     + Body
 
             Optional debug information
@@ -405,6 +509,14 @@ Simple cloud API
 
             Optional debug information
 
++ Response 406
+
+    There is not a directory in the paretn path
+
+    + Body
+
+            Optional debug information
+
 + Response 500
 
     Something went wrong, service unavailable
@@ -451,7 +563,7 @@ Simple cloud API
 
             Optional debug information
 
-+ Response 405
++ Response 404
     
     Resource does not have public link
 
